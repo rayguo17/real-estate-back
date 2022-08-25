@@ -4,14 +4,22 @@ import (
 	"fmt"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/goBack/pkg/util"
 	"github.com/goBack/routers/controllers"
+	"os"
 )
 
 func InitCORS(router *gin.Engine) {
-	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://localhost:3000"}
-	router.Use(cors.New(config))
-	//router.Use(cors.Default())
+	env := os.Getenv("ENVIROMENT")
+	if env == "development" {
+		util.Log().Debug("development!")
+		router.Use(cors.Default())
+	} else {
+		config := cors.DefaultConfig()
+		config.AllowOrigins = []string{"http://test.rayvioli.xyz"}
+		router.Use(cors.New(config))
+	}
+
 	//router.Use(CORSMiddleware())
 }
 func CORSMiddleware() gin.HandlerFunc {

@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/goBack/models"
 	"github.com/goBack/routers"
+	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"os"
@@ -14,7 +15,10 @@ import (
 )
 
 func main() {
-
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("error loading .env file")
+	}
 	models.Init()
 	gin.SetMode("test")
 	api := routers.InitRouter()
